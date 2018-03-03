@@ -1,0 +1,68 @@
+from rest_framework import views, status, viewsets
+from rest_framework.response import Response
+from taskmanager.serializers import StatusSerializer, TaskSerializer
+from taskmanager.models import Task, Status, User
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from django.shortcuts import get_object_or_404
+
+class UserTaskList(views.APIView):
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+    def get(self, request):
+        queryset = Task.objects.all()
+        user = self.request.query_params.get('username', None)
+
+        if user is not None:
+            queryset = queryset.filter(userAssigned = user, owner = user)
+
+        return Response({'result':TaskSerializer(queryset, many= True).data})
+
+    def post(self, request):
+        #status = get_object_or_404(Status.objects.all(), pk = request.data['statusId'])
+        #de inicio sera considerado que todas as tarefas comecam como Todo.
+        taskStatus = Status.objects.get(pk=1)
+        owner = request.user
+        userAssigned = get_object_or_404(User.objects.all(), pk = request.data['assignedUser'])
+        taskName = request.data['name']
+        taskDesc = request.data['description']
+        newTask = Task(owner = request.user, userAssigned = userAssigned, 
+                        description = taskDesc, name = taskName, status = taskStatus )
+        newTask.save()
+        return Response({'result':TaskSerializer(newTask).data}, status = status.HTTP_200_OK)
+
+class TaskViewSet(views.APIView):
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = TaskSerializer
+    queryset = Task.objects.all()
+
+    def get(self, request, pk):
+        task = get_object_or_404(self.queryset, pk = pk, owner = request.user)
+        if request.user in {task.owner, task.userAssigned}:
+            serializedTask = TaskSerializer(task)
+            return Response({'result':serializedTask.data}, status = status.HTTP_200_OK)
+        else:
+            return Response({'result':''}, status = status.HTTP_405_NOT_ALLOWED)
+
+
+
+class StatusViewSet(viewsets.ModelViewSet):
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    def list(self, request):
+        queryset = User.objects.all()
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = User.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
