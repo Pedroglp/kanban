@@ -41,7 +41,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         newTask.save()
         return Response({'result':TaskSerializer(newTask).data}, status = status.HTTP_200_OK)
 
-    def retrive(self, request, pk):
+    def retrieve(self, request, pk):
         task = get_object_or_404(self.queryset, pk = pk, owner = request.user)
         if request.user in {task.owner, task.userAssigned}:
             serializedTask = TaskSerializer(task)
