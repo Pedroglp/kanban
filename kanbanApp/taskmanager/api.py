@@ -22,7 +22,13 @@ class UserTaskList(views.APIView):
 
         return Response({'result':TaskSerializer(queryset, many= True).data})
 
-    def post(self, request):
+class TaskViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = TaskSerializer
+    queryset = Task.objects.all()
+
+    def create(self, request):
         #status = get_object_or_404(Status.objects.all(), pk = request.data['statusId'])
         #de inicio sera considerado que todas as tarefas comecam como Todo.
         taskStatus = Status.objects.get(pk=1)
@@ -35,13 +41,7 @@ class UserTaskList(views.APIView):
         newTask.save()
         return Response({'result':TaskSerializer(newTask).data}, status = status.HTTP_200_OK)
 
-class TaskViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    authentication_classes = (TokenAuthentication,)
-    serializer_class = TaskSerializer
-    queryset = Task.objects.all()
-
-    def get(self, request, pk):
+    def retrive(self, request, pk):
         task = get_object_or_404(self.queryset, pk = pk, owner = request.user)
         if request.user in {task.owner, task.userAssigned}:
             serializedTask = TaskSerializer(task)
@@ -49,10 +49,11 @@ class TaskViewSet(viewsets.ModelViewSet):
         else:
             return Response({'result':''}, status = status.HTTP_405_NOT_ALLOWED)
 
-    def delete(self, request, pk):
+    def destroy(self, request, pk):
         task = self.get_object()
         if task.owner == request.user:
             serializedTask = TaskSerializer(task)
+            task.delete()
             return Response({'result':serializedTask.data}, status = status.HTTP_200_OK)
         else:
             return Response({'result':''}, status = status.HTTP_405_NOT_ALLOWED)
@@ -70,7 +71,6 @@ class TaskViewSet(viewsets.ModelViewSet):
             return Response({'result':''}, status = status.HTTP_405_NOT_ALLOWED)
 
 #TODO: Decorator checking user owner and userAssigned.
-#TODO: Unify UserTaskView set with TaskViewSet using detail_routess
 
 
 class StatusViewSet(viewsets.ModelViewSet):
