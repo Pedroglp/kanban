@@ -54,7 +54,6 @@ class TaskViewSet(viewsets.ModelViewSet):
         if task.owner == request.user:
             serializedTask = TaskSerializer(task)
             task.delete()
-            print("aqui")
             return Response({'result':serializedTask.data}, status = status.HTTP_200_OK)
         else:
             return Response({'result':''}, status = status.HTTP_401_UNAUTHORIZED)
