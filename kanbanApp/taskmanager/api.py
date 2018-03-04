@@ -47,16 +47,17 @@ class TaskViewSet(viewsets.ModelViewSet):
             serializedTask = TaskSerializer(task)
             return Response({'result':serializedTask.data}, status = status.HTTP_200_OK)
         else:
-            return Response({'result':''}, status = status.HTTP_405_NOT_ALLOWED)
+            return Response({'result':''}, status = status.HTTP_401_UNAUTHORIZED)
 
     def destroy(self, request, pk):
         task = self.get_object()
         if task.owner == request.user:
             serializedTask = TaskSerializer(task)
             task.delete()
+            print("aqui")
             return Response({'result':serializedTask.data}, status = status.HTTP_200_OK)
         else:
-            return Response({'result':''}, status = status.HTTP_405_NOT_ALLOWED)
+            return Response({'result':''}, status = status.HTTP_401_UNAUTHORIZED)
 
     @detail_route(methods=['post'])
     def update_status(self, request, pk):
@@ -68,7 +69,7 @@ class TaskViewSet(viewsets.ModelViewSet):
             serializedTask = TaskSerializer(task)
             return Response({'result': serializedTask.data}, status = status.HTTP_200_OK)
         else:
-            return Response({'result':''}, status = status.HTTP_405_NOT_ALLOWED)
+            return Response({'result':''}, status = status.HTTP_401_UNAUTHORIZED)
 
 #TODO: Decorator checking user owner and userAssigned.
 
