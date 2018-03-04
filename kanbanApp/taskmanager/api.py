@@ -1,6 +1,7 @@
 from rest_framework import views, status, viewsets
 from rest_framework.response import Response
-from taskmanager.serializers import StatusSerializer, TaskSerializer
+from taskmanager.serializers import StatusSerializer, TaskSerializer, UserSerializer
+from rest_framework.decorators import detail_route
 from taskmanager.models import Task, Status, User
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
@@ -34,7 +35,7 @@ class UserTaskList(views.APIView):
         newTask.save()
         return Response({'result':TaskSerializer(newTask).data}, status = status.HTTP_200_OK)
 
-class TaskViewSet(views.APIView):
+class TaskViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     authentication_classes = (TokenAuthentication,)
     serializer_class = TaskSerializer
@@ -48,6 +49,28 @@ class TaskViewSet(views.APIView):
         else:
             return Response({'result':''}, status = status.HTTP_405_NOT_ALLOWED)
 
+    def delete(self, request, pk):
+        task = self.get_object()
+        if task.owner == request.user:
+            serializedTask = TaskSerializer(task)
+            return Response({'result':serializedTask.data}, status = status.HTTP_200_OK)
+        else:
+            return Response({'result':''}, status = status.HTTP_405_NOT_ALLOWED)
+
+    @detail_route(methods=['post'])
+    def update_status(self, request, pk):
+        task = self.get_object()
+        newTaskStatus = get_object_or_404(Status, pk = request.data['status'])
+        task.status = newTaskStatus
+        task.save()
+        if request.user in {task.owner, task.userAssigned}:
+            serializedTask = TaskSerializer(task)
+            return Response({'result': serializedTask.data}, status = status.HTTP_200_OK)
+        else:
+            return Response({'result':''}, status = status.HTTP_405_NOT_ALLOWED)
+
+#TODO: Decorator checking user owner and userAssigned.
+#TODO: Unify UserTaskView set with TaskViewSet using detail_routess
 
 
 class StatusViewSet(viewsets.ModelViewSet):
