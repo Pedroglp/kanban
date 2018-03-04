@@ -25,11 +25,11 @@ from django.urls import include
 router = routers.SimpleRouter()
 router.register(r'users', UserViewSet)
 router.register(r'status',StatusViewSet)
+router.register(r'task',TaskViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
     path('api/my-tasks', UserTaskList.as_view()),
-    re_path(r'api/task/(?P<pk>[0-9]+)$',TaskViewSet.as_view()),
+    re_path(r'api/', include(router.urls)),
     path('api/token-auth', authViews.obtain_auth_token)
 ]
