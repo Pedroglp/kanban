@@ -6,6 +6,7 @@ from taskmanager.models import Task, Status, User
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 class UserTaskList(views.APIView):
     permission_classes = (IsAuthenticated,)
@@ -62,6 +63,10 @@ class TaskViewSet(viewsets.ModelViewSet):
     def update_status(self, request, pk):
         task = self.get_object()
         newTaskStatus = get_object_or_404(Status, pk = request.data['status'])
+        if(newTaskStatus.id == 2):
+            task.dateStart = timezone.now()
+        else:
+            task.dateEnd = timezone.now()
         task.status = newTaskStatus
         task.save()
         if request.user in {task.owner, task.userAssigned}:
