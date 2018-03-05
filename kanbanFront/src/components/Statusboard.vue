@@ -2,7 +2,7 @@
     <div class="statusboard">
         <b-card header="My Tasks">
             <b-row>
-            <b-col v-for="group in taskGroup" :key="group.id">
+            <b-col v-self="center" v-for="group in taskGroup" :key="group.id">
                 <taskboard :tasks="group.tasks" :name="group.name"></taskboard>
             </b-col>
             </b-row>
