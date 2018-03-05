@@ -79,10 +79,14 @@ class TaskViewSet(viewsets.ModelViewSet):
 
 
 class StatusViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
     queryset = Status.objects.all()
     serializer_class = StatusSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
     queryset = User.objects.all()
     def list(self, request):
         queryset = User.objects.all()
