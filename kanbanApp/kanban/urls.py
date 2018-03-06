@@ -21,6 +21,9 @@ from rest_framework import routers
 from rest_framework.authtoken import views as authViews
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import include
+from taskmanager.views import home
+
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 router = routers.SimpleRouter()
 router.register(r'users', UserViewSet)
@@ -28,8 +31,11 @@ router.register(r'status',StatusViewSet)
 router.register(r'task',TaskViewSet)
 
 urlpatterns = [
+    re_path(r'^$', home, name="uHome"),
     path('admin/', admin.site.urls),
     path('api/my-tasks', UserTaskList.as_view()),
     re_path(r'api/', include(router.urls)),
     path('api/token-auth', authViews.obtain_auth_token)
 ]
+
+urlpatterns += staticfiles_urlpatterns()

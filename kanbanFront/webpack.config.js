@@ -1,13 +1,15 @@
 var path = require('path')
 var webpack = require('webpack')
+var BundleTracker = require('webpack-bundle-tracker')
+var WriteFilePlugin = require('write-file-webpack-plugin')
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './src/assets/bundles'),
     publicPath: '/dist/',
-    filename: 'build.js'
+    filename: 'bundle.js'
   },
   module: {
     rules: [
@@ -58,7 +60,9 @@ module.exports = {
   performance: {
     hints: false
   },
-  plugins: [new ExtractTextPlugin("main.css")],
+  plugins: [new ExtractTextPlugin("main.css"),
+            new BundleTracker({filename: 'webpack-stats.json'}),
+            new WriteFilePlugin()],
   devtool: '#eval-source-map'
 }
 
