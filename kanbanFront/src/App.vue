@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <b-container>
+      <newtaskform></newtaskform>
       <statusboard></statusboard>
     </b-container>
   </div>
@@ -9,6 +10,7 @@
 <script>
 
 import statusboard from './components/Statusboard.vue'
+import newtaskform from './components/NewTaskForm.vue'
 
 export default {
   name: 'app',
@@ -17,7 +19,7 @@ export default {
       msg: 'Welcome to Your Vue.js App'
     }
   },
-  components:{statusboard}
+  components:{statusboard, newtaskform}
 }
 </script>
 

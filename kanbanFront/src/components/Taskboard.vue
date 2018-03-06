@@ -1,7 +1,7 @@
 <template>
     <div class="taskboard">
         <b-card :header="name">
-            <b-row align-h="center" v-for="task in tasks">
+            <b-row align-h="center" v-for="task in tasks" :key="task.id">
                 <taskcard :task="task"></taskcard>
             </b-row>
         </b-card>

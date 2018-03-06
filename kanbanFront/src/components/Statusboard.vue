@@ -1,12 +1,10 @@
 <template>
     <div class="statusboard">
-        <b-card header="My Tasks">
-            <b-row>
+        <b-row>
             <b-col v-self="center" v-for="group in taskGroup" :key="group.id">
                 <taskboard :tasks="group.tasks" :name="group.name"></taskboard>
             </b-col>
-            </b-row>
-        </b-card>
+        </b-row>
     </div>
 </template>
 
