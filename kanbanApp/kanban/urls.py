@@ -22,7 +22,6 @@ from rest_framework.authtoken import views as authViews
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import include
 from taskmanager.views import home
-
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 router = routers.SimpleRouter()
@@ -37,5 +36,5 @@ urlpatterns = [
     re_path(r'api/', include(router.urls)),
     path('api/token-auth', authViews.obtain_auth_token)
 ]
-
+print(staticfiles_urlpatterns())
 urlpatterns += staticfiles_urlpatterns()
