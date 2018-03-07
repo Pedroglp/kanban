@@ -14,7 +14,8 @@ const store = new Vuex.Store({
   },
   mutations: {
     'ADD_TASK': function (task) {
-      state.tasks.push(todo)
+      alert('AQUI MUTATION');
+      state.tasks.push(task)
     },
     'UPDATE_TASK': function (taskId, status) {
       targetTask = state.tasks.filter(task=> task.id == taskId);
@@ -23,6 +24,7 @@ const store = new Vuex.Store({
   },
   actions: {
     addTask (store, task) {
+      alert('AQUI ADD TASK');
       store.commit('ADD_TASK', task)
     },
     updateTask (store, taskId, status) {

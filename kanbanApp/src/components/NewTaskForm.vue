@@ -1,7 +1,7 @@
 <template>
     <div class="newtaskform">
         <b-card style="margin-bottom:10px" header="New Task">
-            <b-form inline @submit="newTask">
+            <b-form inline @submit="addTask">
                 <b-form-group   id="taskNameGroup"
                                 label="Name: "
                                 label-for="taskNameInput"
@@ -45,7 +45,18 @@
         components:{},
         //props:['users'],
         methods:{
-            newTask(){alert('New Task');}
+            addTask(){
+                 alert("AQUI METHOD - 1")
+                 var pretask = {};
+                 pretask.id = 5;
+                 pretask.name = this.form.name;
+                 pretask.description = this.form.description;
+                 pretask.owner = {id:"1", name:"Pedro"};
+                 pretask.status = {id:"1", name:"Todo"};
+                 pretask.assingedUser = {id:"1", name:"Pedro"};
+                 alert("AQUI METHOD - 2")
+                 this.$store.dispatch('ADD_TASK', pretask)
+            }
         },
         data(){
             return{
@@ -54,7 +65,8 @@
                     description:'',
                     user:null
                 },
-                users:['Teste','Teste 2']
+                users:['Teste','Teste 2'],
+
             }
         }
     }
