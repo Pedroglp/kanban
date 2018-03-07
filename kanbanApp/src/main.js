@@ -11,7 +11,7 @@ Vue.use(VueResource)
 
 new Vue({
   el: '#app',
-  store,
+  store: store,
   components: {
     'app':App}
 })

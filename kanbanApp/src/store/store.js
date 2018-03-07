@@ -13,18 +13,16 @@ const store = new Vuex.Store({
     ]
   },
   mutations: {
-    'ADD_TASK': function (task) {
-      alert('AQUI MUTATION');
+    'ADD_TASK': function (state, task) {
       state.tasks.push(task)
     },
-    'UPDATE_TASK': function (taskId, status) {
+    'UPDATE_TASK': function (state, taskId, status) {
       targetTask = state.tasks.filter(task=> task.id == taskId);
       targetTask.status = status;
     },
   },
   actions: {
     addTask (store, task) {
-      alert('AQUI ADD TASK');
       store.commit('ADD_TASK', task)
     },
     updateTask (store, taskId, status) {
