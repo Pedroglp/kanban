@@ -26,8 +26,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 router = routers.SimpleRouter()
 router.register(r'users', UserViewSet)
-router.register(r'status',StatusViewSet)
-router.register(r'task',TaskViewSet)
+router.register(r'status', StatusViewSet)
+router.register(r'task', TaskViewSet)
 
 urlpatterns = [
     re_path(r'^$', home, name="uHome"),

@@ -1,9 +1,17 @@
+class user{
+    constructor(instance){
+        this.instance = instance
+        this.name = '/users/'
+    }
 
-import Axios from 'axios'
+    get(pk){
+        this.instance.get(name+pk+'/')
+    }
 
-export default {
-    get(){
-        axios.get('/user')
-    },
+    list(){
+        this.instance.get(name)
+    }
 
 }
+
+export default {user}
