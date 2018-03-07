@@ -20,13 +20,25 @@ const store = new Vuex.Store({
       targetTask = state.tasks.filter(task=> task.id == taskId);
       targetTask.status = status;
     },
+    'GET_TASKS': function (state){
+      alert('update');
+    },
+    'GET_USERS': function (state){
+      alert('get users')
+    }
   },
   actions: {
     addTask (store, task) {
-      store.commit('ADD_TASK', task)
+      store.commit('ADD_TASK', task);
     },
     updateTask (store, taskId, status) {
-      store.commit('CLEAR_TODOS', taskId, status)
+      store.commit('CLEAR_TODOS', taskId, status);
+    },
+    getTasks(store){
+      store.commit('GET_TASKS');
+    },
+    getUsers(store){
+      store.commit('GET_USERS');
     }
   }
 })
