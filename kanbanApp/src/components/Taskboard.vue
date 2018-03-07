@@ -1,8 +1,8 @@
 <template>
     <div class="taskboard">
-        <b-card :header="name">
-            <b-row align-h="center" v-for="task in tasks" :key="task.id">
-                <taskcard :task="task"></taskcard>
+        <b-card :header="status.name">
+            <b-row align-h="center" v-for="task in tasksFiltered" :key="task.id">
+                    <taskcard :task="task"></taskcard>
             </b-row>
         </b-card>
     </div>
@@ -14,12 +14,16 @@
     export default{
         name:'taskboard',
         components:{taskcard},
-        props:['tasks', 'name'],
+        props:['tasks', 'status'],
         methods:{},
         data(){
             return{
-                name: this.name,
-                tasks: this.tasks
+                name: status.name,
+            }
+        },
+        computed:{
+            tasksFiltered(){
+                return this.tasks.filter(task => task.status.id == this.status.id)
             }
         }
     }

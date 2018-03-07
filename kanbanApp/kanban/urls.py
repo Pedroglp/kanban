@@ -36,5 +36,4 @@ urlpatterns = [
     re_path(r'api/', include(router.urls)),
     path('api/token-auth', authViews.obtain_auth_token)
 ]
-print(staticfiles_urlpatterns())
 urlpatterns += staticfiles_urlpatterns()
