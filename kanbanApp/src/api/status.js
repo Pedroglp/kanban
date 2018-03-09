@@ -1,8 +1,8 @@
-export default class User{
+export default class Status{
 
     constructor(instance){
+        this.name='/status/'
         this.instance = instance
-        this.name = '/users/'
     }
 
     get(pk){
@@ -11,6 +11,10 @@ export default class User{
 
     list(){
         return this.instance.get(this.name)
+    }
+
+    post(params){
+        return this.instance.post(this.name, params)
     }
 
 }

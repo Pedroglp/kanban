@@ -6,22 +6,22 @@ export default class Task{
     }
 
     get(pk){
-        this.instance.get(this.name+pk+'/')
+        return this.instance.get(this.name+pk+'/')
     }
 
     list(){
-        this.instance.get(this.name)
+        return this.instance.get(this.name)
     }
 
     post(params){
-        this.instance.post(this.name, params)
+        return this.instance.post(this.name, params)
     }
 
     update(pk, params){
-        this.instance.post(this.name+pk+'/update_status/', params)
+        return this.instance.post(this.name+pk+'/update_status/', params)
     }
 
     delete(pk){
-        this.instance.delete(this.name+pk+'/')
+        return this.instance.delete(this.name+pk+'/')
     }
 }

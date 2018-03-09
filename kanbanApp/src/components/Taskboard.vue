@@ -23,7 +23,8 @@
         },
         computed:{
             tasksFiltered(){
-                return this.tasks.filter(task => task.status.id == this.status.id)
+                if(this.tasks)
+                    return this.tasks.filter(task => task.status.id == this.status.id)
             }
         }
     }

@@ -29,7 +29,7 @@
                                 label-for="taskUserSelect"
                                 style="margin-right:10px">
                     <b-form-select  id="taskUserSelect"
-                                    :options="users"
+                                    :options="userOptions"
                                     required>
                     </b-form-select>
                 </b-form-group>
@@ -52,9 +52,9 @@
                  pretask.description = this.form.description;
                  pretask.owner = {id:"1", name:"Pedro"};
                  pretask.status = {id:"1", name:"Todo"};
-                 pretask.assingedUser = {id:"1", name:"Pedro"};
+                 pretask.assignedUser = {id:"1", name:"Pedro"}
                  this.$store.dispatch('addTask', pretask)
-            }
+            },
         },
         data(){
             return{
@@ -63,9 +63,18 @@
                     description:'Teste',
                     user:null
                 },
-                users:['Teste','Teste 2'],
-
+                userOptions:[]
             }
+        },
+        computed:{
+            updateUserList: function(){
+                for(let user of this.$store.state.usersList){
+                    this.userOptions.push({text: user.first_name, value:user});
+                }
+            }
+        },
+        mounted(){
+            this.$store.dispatch('getUsersList')
         }
     }
 </script>
