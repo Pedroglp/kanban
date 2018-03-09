@@ -1,4 +1,4 @@
-class task{
+export default class Task{
 
     constructor(instance){
         this.name='/task/'
@@ -24,8 +24,4 @@ class task{
     delete(pk){
         this.instance.delete(this.name+pk+'/')
     }
-
 }
-
-export default {task}
-

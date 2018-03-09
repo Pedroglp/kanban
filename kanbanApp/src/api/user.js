@@ -1,4 +1,5 @@
-class user{
+export default class User{
+
     constructor(instance){
         this.instance = instance
         this.name = '/users/'
@@ -13,5 +14,3 @@ class user{
     }
 
 }
-
-export default {user}

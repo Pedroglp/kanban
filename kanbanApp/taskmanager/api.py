@@ -8,21 +8,6 @@ from rest_framework.authentication import TokenAuthentication
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
-class UserTaskList(views.APIView):
-    permission_classes = (IsAuthenticated,)
-    authentication_classes = (TokenAuthentication,)
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
-
-    def get(self, request):
-        queryset = Task.objects.all()
-        user = self.request.query_params.get('username', None)
-
-        if user is not None:
-            queryset = queryset.filter(userAssigned = user, owner = user)
-
-        return Response({'result':TaskSerializer(queryset, many= True).data})
-
 class TaskViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     authentication_classes = (TokenAuthentication,)
@@ -74,6 +59,14 @@ class TaskViewSet(viewsets.ModelViewSet):
             return Response({'result': serializedTask.data}, status = status.HTTP_200_OK)
         else:
             return Response({'result':''}, status = status.HTTP_401_UNAUTHORIZED)
+
+    def list(self, request):
+        queryset = Task.objects.all()
+        user = self.request.query_params.get('username', None)
+        if user is not None:
+            queryset = queryset.filter(userAssigned = user, owner = user)
+
+        return Response({'result':TaskSerializer(queryset, many= True).data})
 
 #TODO: Decorator checking user owner and userAssigned.
 

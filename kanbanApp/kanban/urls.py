@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from taskmanager.api import UserTaskList, UserViewSet, StatusViewSet
+from taskmanager.api import UserViewSet, StatusViewSet
 from taskmanager.api import TaskViewSet
 from rest_framework import routers
 from rest_framework.authtoken import views as authViews
@@ -32,7 +32,6 @@ router.register(r'task', TaskViewSet)
 urlpatterns = [
     re_path(r'^$', home, name="uHome"),
     path('admin/', admin.site.urls),
-    path('api/my-tasks', UserTaskList.as_view()),
     re_path(r'api/', include(router.urls)),
     path('api/token-auth', authViews.obtain_auth_token)
 ]
