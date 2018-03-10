@@ -14,13 +14,16 @@
         name:'taskcard',
         components:{},
         props:['task'],
-        computed:{
-            setTask(){this.task = task}
-        },
         methods:{
-            startTask(){this.$store.dispatch('updateTask'), this.task, {id:'2', name:'Doing'}},
-            finishTask(){this.$store.dispatch('updateTask'), this.task, {id:'3', name:'Done'}},
-            restartTask(){this.$store.disptach('updateTask'), this.task, {id:'1', name:'Todo'}}
+            startTask(){
+                this.task.status = {id:'2', name:'Doing'}
+                this.$store.dispatch('updateTask', this.task)},
+            finishTask(){
+                this.task.status = {id:'3', name:'Done'}
+                this.$store.dispatch('updateTask', this.task)},
+            restartTask(){
+                this.task.status = {id:'1', name:'Todo'}
+                this.$store.dispatch('updateTask', this.task)}
         }
     }
 </script>
