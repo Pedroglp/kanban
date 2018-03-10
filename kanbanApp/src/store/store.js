@@ -16,7 +16,7 @@ const store = new Vuex.Store({
     'ADD_TASK': function (state, task) {
       state.tasks.push(task)
     },
-    'UPDATE_TASK': function (state, taskId, status) {
+    'UPDATE_TASK': function (state, task, status) {
       targetTask = state.tasks.filter(task=> task.id == taskId);
       targetTask.status = status;
     },
@@ -35,14 +35,14 @@ const store = new Vuex.Store({
   },
   actions: {
     addTask (store, task) {
-      let json = {'name':task.name,'description':task.description,'assignedUser':task.assignedUser.id}
-      return request.task().post(json).then(response =>{
+      let params = {'name':task.name,'description':task.description,'assignedUser':task.assignedUser.id}
+      return request.task().post(params).then(response =>{
         store.commit('ADD_TASK', response.data.result);
       }).catch(error => store.commit('API_FAIL', error));
     },
-    updateTask (store, taskId, status) {
-      return request.task().update().then(response =>{
-        store.commit('CLEAR_TODOS', taskId, status);
+    updateTask (store, task) {
+      return request.task().update(task.id, task.status.id).then(response =>{
+        store.commit('UPDATE_TASK', response.result);
       }).catch(error => store.commit('API_FAIL', error));
     },
     getTasks(store){
