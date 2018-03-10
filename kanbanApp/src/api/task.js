@@ -18,7 +18,7 @@ export default class Task{
     }
 
     update(pk, params){
-        return this.instance.post(this.name+pk+'/update_status/', params)
+        return this.instance.patch(this.name+pk+'/', {statusId:params})
     }
 
     delete(pk){
