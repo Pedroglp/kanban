@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from itertools import chain
 
 class TaskViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
@@ -47,23 +48,25 @@ class TaskViewSet(viewsets.ModelViewSet):
     def partial_update(self, request, pk):
         task = self.get_object()
         newTaskStatus = get_object_or_404(Status, pk = request.data['statusId'])
-        if(newTaskStatus.id == 2):
-            task.dateStart = timezone.now()
-        else:
-            task.dateEnd = timezone.now()
-        task.status = newTaskStatus
-        task.save()
-        if request.user in {task.owner, task.userAssigned}:
+        print(task.owner)
+        print(task.userAssigned)
+        print(request.user)
+        if request.user.id in [task.owner.id, task.userAssigned.id]:
+            if(newTaskStatus.id == 2):
+                task.dateStart = timezone.now()
+            else:
+                task.dateEnd = timezone.now()
+            task.status = newTaskStatus
+            task.save()
             serializedTask = TaskSerializer(task)
             return Response({'result': serializedTask.data}, status = status.HTTP_200_OK)
         else:
             return Response({'result':''}, status = status.HTTP_401_UNAUTHORIZED)
 
     def list(self, request):
-        queryset = Task.objects.all()
-        user = self.request.query_params.get('username', None)
-        if user is not None:
-            queryset = queryset.filter(userAssigned = user, owner = user)
+        queryset = Task.objects.filter(userAssigned=request.user)
+        '''if user is not None:
+            queryset = list(chain(queryset.filter(userAssigned = user),queryset.filter(owner = user)))'''
 
         return Response({'result':TaskSerializer(queryset, many= True).data})
 
