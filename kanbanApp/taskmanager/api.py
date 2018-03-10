@@ -44,10 +44,9 @@ class TaskViewSet(viewsets.ModelViewSet):
         else:
             return Response({'result':''}, status = status.HTTP_401_UNAUTHORIZED)
 
-    @detail_route(methods=['post'])
-    def update_status(self, request, pk):
+    def partial_update(self, request, pk):
         task = self.get_object()
-        newTaskStatus = get_object_or_404(Status, pk = request.data['status'])
+        newTaskStatus = get_object_or_404(Status, pk = request.data['statusId'])
         if(newTaskStatus.id == 2):
             task.dateStart = timezone.now()
         else:
