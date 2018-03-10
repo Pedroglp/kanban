@@ -30,7 +30,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, pk):
         task = get_object_or_404(self.queryset, pk = pk, owner = request.user)
-        if request.user in {task.owner, task.userAssigned}:
+        if request.user.id in {task.owner.id, task.userAssigned.id}:
             serializedTask = TaskSerializer(task)
             return Response({'result':serializedTask.data}, status = status.HTTP_200_OK)
         else:
