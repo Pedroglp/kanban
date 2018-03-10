@@ -47,7 +47,6 @@
         methods:{
             addTask(){
                  var pretask = {};
-                 pretask.id = 5;
                  pretask.name = this.form.name;
                  pretask.description = this.form.description;
                  pretask.owner = {id:"1", name:"Pedro"};
