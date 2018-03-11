@@ -11,6 +11,7 @@ const store = new Vuex.Store({
     tasks: [],
     usersList: [],
     statusList: [],
+    auth:{isLoggedIn: false, token:'', user:{}},
   },
   mutations: {
     'ADD_TASK': function (state, task) {
