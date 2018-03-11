@@ -54,6 +54,22 @@
                  pretask.assignedUser = {id:"1", name:"Pedro"}
                  this.$store.dispatch('addTask', pretask)
             },
+            fetchUsersList(){ 
+                            this.$store.dispatch('getUsersList').then(()=>{
+                                this.userOptions = []
+                                for(let user of this.$store.state.usersList){
+                                    this.userOptions.push({text: user.first_name, value:user})
+                                }
+                            })
+            },
+            cancelAutoUpdate() { clearInterval(this.timer); },
+        },
+        created(){
+            this.fetchUsersList();
+            this.timer = setInterval(this.fetchUsersList, 50000);
+        },
+        beforeDestroy(){
+            clearInterval(this.timer)
         },
         data(){
             return{
@@ -65,15 +81,5 @@
                 userOptions:[]
             }
         },
-        computed:{
-            updateUserList: function(){
-                for(let user of this.$store.state.usersList){
-                    this.userOptions.push({text: user.first_name, value:user});
-                }
-            }
-        },
-        mounted(){
-            this.$store.dispatch('getUsersList')
-        }
     }
 </script>

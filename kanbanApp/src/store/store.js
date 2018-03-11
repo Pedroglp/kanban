@@ -47,13 +47,12 @@ const store = new Vuex.Store({
     },
     getTasks(store){
       return request.task().list().then(response =>{
-        console.log(response)
         store.commit('GET_TASKS', response.data.result);
       }).catch(error => store.commit('API_FAIL', error));
     },
     getUsersList(store){
       return request.user().list().then(response =>{
-        store.commit('GET_USERS_LIST', response.data.result);
+        store.commit('GET_USERS_LIST', response.data);
       }).catch(error => store.commit('API_FAIL', error));
     },
     getStatusList(store){

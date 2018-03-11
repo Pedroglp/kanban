@@ -29,3 +29,11 @@
         }
     }
 </script>
+
+<style>
+
+b-card{
+    height: 30vh;
+}
+
+</style>
