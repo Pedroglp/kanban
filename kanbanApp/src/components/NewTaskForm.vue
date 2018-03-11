@@ -8,7 +8,7 @@
                                 style="margin-right:10px">
                     <b-form-input   id="taskNameInput"
                                     type="text"
-                                    :v-model="form.taskName"
+                                    v-model="form.name"
                                     place-holder="Enter Task Name"
                                     required>
                     </b-form-input>
@@ -19,7 +19,7 @@
                                 style="margin-right:10px">
                     <b-form-input   id="taskDescription"
                                     type="text"
-                                    :v-model="form.taskDescription"
+                                    v-model="form.description"
                                     place-holder="Tell me a little bit more about it"
                                     required>
                     </b-form-input>
@@ -30,6 +30,7 @@
                                 style="margin-right:10px">
                     <b-form-select  id="taskUserSelect"
                                     :options="userOptions"
+                                    v-model="form.userSelected"
                                     required>
                     </b-form-select>
                 </b-form-group>
@@ -46,12 +47,12 @@
         //props:['users'],
         methods:{
             addTask(){
-                 var pretask = {};
-                 pretask.name = this.form.name;
-                 pretask.description = this.form.description;
-                 pretask.owner = {id:"1", name:"Pedro"};
-                 pretask.status = {id:"1", name:"Todo"};
-                 pretask.assignedUser = {id:"1", name:"Pedro"}
+                 var pretask = {}
+                 pretask.name = this.form.name
+                 pretask.description = this.form.description
+                 pretask.owner = {id:"1", name:"Pedro"}
+                 pretask.status = {id:"1", name:"Todo"}
+                 pretask.assignedUser = this.form.userSelected
                  this.$store.dispatch('addTask', pretask)
             },
             fetchUsersList(){ 
@@ -74,9 +75,10 @@
         data(){
             return{
                 form:{
-                    name:'Tarefa',
-                    description:'Teste',
-                    user:null
+                    name:'',
+                    description:'',
+                    user:null,
+                    userSelected: null
                 },
                 userOptions:[]
             }
