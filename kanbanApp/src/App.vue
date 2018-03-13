@@ -1,16 +1,12 @@
 <template>
   <div id="app">
     <b-container>
-      <newtaskform></newtaskform>
-      <statusboard></statusboard>
+        <router-view></router-view>
     </b-container>
   </div>
 </template>
 
 <script>
-
-import statusboard from './components/Statusboard.vue'
-import newtaskform from './components/NewTaskForm.vue'
 
 export default {
   name: 'app',
@@ -18,7 +14,7 @@ export default {
     return {
     }
   },
-  components:{statusboard, newtaskform}
+  components:{ }
 }
 </script>
 

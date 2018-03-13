@@ -1,1 +1,1 @@
-{"status":"done","chunks":{"main":[{"name":"bundle.js","path":"/home/pglp/Documents/Pessoal/kanban/kanbanApp/src/assets/bundles/bundle.js"},{"name":"main.css","path":"/home/pglp/Documents/Pessoal/kanban/kanbanApp/src/assets/bundles/main.css"}]}}
+{"status":"error","error":"ModuleNotFoundError","message":"Module not found: Error: Can't resolve '.src/components/Home.vue' in '/home/pglp/Documents/Pessoal/kanban/kanbanApp/src/routes'"}

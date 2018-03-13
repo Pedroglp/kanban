@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Api from '../api/api.js'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex) 
 
@@ -61,7 +62,8 @@ const store = new Vuex.Store({
         store.commit('GET_STATUS', response.data.result);
       }).catch(error => store.commit('API_FAIL', error));
     }
-  }
+  },
+  plugins:[createPersistedState()]
 })
 
 export default store
