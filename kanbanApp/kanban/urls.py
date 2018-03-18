@@ -30,9 +30,9 @@ router.register(r'status', StatusViewSet)
 router.register(r'task', TaskViewSet)
 
 urlpatterns = [
-    re_path(r'^$', home, name="uHome"),
     path('admin/', admin.site.urls),
     re_path(r'api/', include(router.urls)),
-    path('api/token-auth', authViews.obtain_auth_token)
+    path('api/token-auth', authViews.obtain_auth_token),
+    re_path(r'^.*$', home)
 ]
 urlpatterns += staticfiles_urlpatterns()

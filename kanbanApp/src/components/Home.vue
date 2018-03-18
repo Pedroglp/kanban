@@ -7,8 +7,8 @@
 
 <script>
 
-import statusboard from './components/Home/Statusboard.vue'
-import newtaskform from './components/Home/NewTaskForm.vue'
+import statusboard from './Home/Statusboard.vue'
+import newtaskform from './Home/NewTaskForm.vue'
 
 export default {
   name: 'home',

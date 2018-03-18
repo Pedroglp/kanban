@@ -4,11 +4,16 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const router = new Router({
-      path: '/',
-      name: 'home',
-      component: function (resolve) {
-        require(['.src/components/Home.vue'], resolve)
-      },
+      mode: 'history',
+      base: '/app',
+      routes: [
+        {
+          path: '/',
+          name: 'home',
+          component: function (resolve) {
+          require(['../components/Home.vue'], resolve)}
+        }
+      ]
       //beforeEnter: guardRoute
 })
 

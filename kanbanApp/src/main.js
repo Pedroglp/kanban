@@ -13,7 +13,7 @@ Vue.use(VueResource)
 new Vue({
   el: '#app',
   store: store,
-  router: Router,
+  router: router,
   components: {
     'app':App}
 })
